@@ -1,10 +1,10 @@
 #include <stdio.h>
 
 int main() {
-    int idade;
+    short int idade;
 
     printf("Digite a idade do nadador: ");
-    scanf("%d", &idade);
+    scanf("%hd", &idade);
 
     if (idade >= 5 && idade <= 7) {
         printf("Categoria: Infantil A\n");
