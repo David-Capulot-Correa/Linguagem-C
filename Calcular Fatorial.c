@@ -2,7 +2,7 @@
 
 int main() {
     int n;
-    long long fatorial = 1; // tipo long long para suportar números grandes
+    long long fatorial = 1;
 
     printf("Digite um número inteiro: ");
     scanf("%d", &n);
@@ -12,7 +12,7 @@ int main() {
     }
     else {
         for (int i = 1; i <= n; i++) {
-            fatorial *= i; // multiplica o valor acumulado por i
+            fatorial *= i;
         }
 
         printf("%d! = %lld\n", n, fatorial);
