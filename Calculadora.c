@@ -16,7 +16,7 @@ int main() {
     printf("*  para multiplicação\n");
     printf("/  para divisão\n");
     printf("Operação: ");
-    scanf(" %c", &operacao); // espaço antes de %c para ignorar o ENTER anterior
+    scanf(" %c", &operacao);
 
     switch (operacao) {
         case '+':
