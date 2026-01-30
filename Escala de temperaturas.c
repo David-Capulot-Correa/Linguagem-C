@@ -1,31 +1,44 @@
 #include <stdio.h>
 
 int main() {
-    int op;
-    float temp, C, F, K;
+    int origem, destino;
+    float temp, resultado;
 
-    printf("Escolha a escala de entrada:\n");
-    printf("1-Celsius\n2-Fahrenheit\n3-Kelvin\nEscolha: ");
-    scanf("%d", &op);
+    printf("Escolha a escala de ORIGEM:\n");
+    printf("1 - Celsius\n2 - Fahrenheit\n3 - Kelvin\nEscolha: ");
+    scanf("%d", &origem);
 
-    printf("Digite o valor da temperatura: ");
+    printf("Digite a temperatura: ");
     scanf("%f", &temp);
 
-    if (op == 1) { // De Celsius para outras
-        F = (temp * 9 / 5) + 32;
-        K = temp + 273.15;
-        printf("Fahrenheit: %.2f\nKelvin: %.2f\n", F, K);
-    } 
-    else if (op == 2) { // De Fahrenheit para outras
-        C = (temp - 32) * 5 / 9;
-        K = C + 273.15;
-        printf("Celsius: %.2f\nKelvin: %.2f\n", C, K);
-    } 
-    else if (op == 3) { // De Kelvin para outras
-        C = temp - 273.15;
-        F = (C * 9 / 5) + 32;
-        printf("Celsius: %.2f\nFahrenheit: %.2f\n", C, F);
+    printf("\nEscolha a escala de DESTINO:\n");
+    printf("1 - Celsius\n2 - Fahrenheit\n3 - Kelvin\nEscolha: ");
+    scanf("%d", &destino);
+
+    if (origem == 1 && destino == 2)
+        resultado = (temp * 9 / 5) + 32;
+    else if (origem == 1 && destino == 3)
+        resultado = temp + 273.15;
+        
+    else if (origem == 2 && destino == 1)
+        resultado = (temp - 32) * 5 / 9;
+    else if (origem == 2 && destino == 3)
+        resultado = ((temp - 32) * 5 / 9) + 273.15;
+
+    else if (origem == 3 && destino == 1)
+        resultado = temp - 273.15;
+    else if (origem == 3 && destino == 2)
+        resultado = (temp - 273.15) * 9 / 5 + 32;
+
+    else if (origem == destino)
+        resultado = temp;
+
+    else {
+        printf("Opcao invalida!\n");
+        return 0;
     }
+
+    printf("\nResultado: %.2f\n", resultado);
 
     return 0;
 }
