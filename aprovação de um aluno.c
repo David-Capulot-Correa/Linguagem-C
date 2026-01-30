@@ -17,14 +17,14 @@ int main() {
     printf("Digite o número de aulas assistidas: ");
     scanf("%d", &aulas_assistidas);
 
-    // Calcula a média e a frequência
+
     media = (nota1 + nota2) / 2;
     frequencia = (aulas_assistidas * 100.0) / aulas_ministradas;
 
     printf("\nMédia final: %.2f", media);
     printf("\nFrequência: %.2f%%", frequencia);
 
-    // Verifica aprovação
+
     if (media >= 6.0 && frequencia >= 75.0) {
         printf("\nSituação: APROVADO ✅\n");
     } else {
