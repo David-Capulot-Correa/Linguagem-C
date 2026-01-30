@@ -1,40 +1,39 @@
 #include <stdio.h>
-#include <math.h>  // Necessário para a função exp()
+#include <math.h>
 
-// Função que queremos integrar
 double f(double t) {
-    return 4 * (1 - exp(-2 * t));  // A nova função: 4 * (1 - exp(-2 * t))
+    return 4 * (1 - exp(-2 * t)); 
 }
 
-// Função para calcular a integral usando o método de Riemann
+
 double riemann(double (*func)(double), double a, double b, int n, char tipo) {
     double soma = 0.0;
-    double largura = (b - a) / n;  // Largura de cada subintervalo
+    double largura = (b - a) / n;
 
     for (int i = 0; i < n; i++) {
         double x;
 
-        // Escolher o ponto de amostragem dependendo do tipo de método
-        if (tipo == 'e') {  // Método da soma à esquerda
+
+        if (tipo == 'e') {  
             x = a + i * largura;
-        } else if (tipo == 'd') {  // Método da soma à direita
+        } else if (tipo == 'd') {  
             x = a + (i + 1) * largura;
-        } else if (tipo == 'm') {  // Método da soma do meio
+        } else if (tipo == 'm') {  
             x = a + (i + 0.5) * largura;
         }
 
-        soma += func(x) * largura;  // Soma das áreas dos retângulos
+        soma += func(x) * largura;  
     }
 
     return soma;
 }
 
 int main() {
-    double a, b;  // Limites da integral
-    int n;         // Número de divisões
-    char tipo;     // Tipo de método (esquerda, direita ou meio)
+    double a, b;  
+    int n;      
+    char tipo;    
 
-    // Entrada de dados pelo usuário
+
     printf("Digite o limite inferior a: ");
     scanf("%lf", &a);
 
@@ -45,9 +44,8 @@ int main() {
     scanf("%d", &n);
 
     printf("Escolha o tipo de Riemann (e = esquerda, d = direita, m = meio): ");
-    scanf(" %c", &tipo);  // O espaço antes de %c é para capturar qualquer caractere residual na entrada
+    scanf(" %c", &tipo);  
 
-    // Chama a função riemann passando a função f, os limites de integração, número de subintervalos e o tipo
     double resultado = riemann(f, a, b, n, tipo);
 
     printf("Resultado da integral de f(t) = 4 * (1 - exp(-2 * t)) entre %.2f e %.2f usando Riemann: %.6f\n", a, b, resultado);
