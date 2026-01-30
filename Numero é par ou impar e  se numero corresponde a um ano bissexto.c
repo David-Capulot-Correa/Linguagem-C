@@ -14,7 +14,6 @@ int main() {
     scanf("%d", &opcao);
 
     if (opcao == 1) {
-        // Verifica se é par ou ímpar
         if (numero % 2 == 0) {
             printf("\nO número %d é PAR.\n", numero);
         } else {
@@ -22,7 +21,6 @@ int main() {
         }
 
     } else if (opcao == 2) {
-        // Verifica se é ano bissexto
         if ((numero % 400 == 0) || (numero % 4 == 0 && numero % 100 != 0)) {
             printf("\nO ano %d é BISSEXTO.\n", numero);
         } else {
