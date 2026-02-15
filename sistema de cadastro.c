@@ -14,7 +14,7 @@ typedef struct {
 Pessoa pessoas[MAX];
 int total = 0;
 
-//  FUNÇÕES
+
 
 void salvar() {
     FILE *f = fopen(ARQUIVO, "w");
@@ -133,7 +133,7 @@ void deletar() {
     printf("Cadastro removido!\n");
 }
 
-//  MAIN 
+
 
 int main() {
 
