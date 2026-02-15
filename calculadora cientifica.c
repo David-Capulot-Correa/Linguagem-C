@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-// ----------- Funções -----------
+
 
 float soma(float a, float b) {
     return a + b;
@@ -50,7 +50,7 @@ long long fatorial(int n) {
     return resultado;
 }
 
-// ----------- Main -----------
+
 
 int main() {
 
