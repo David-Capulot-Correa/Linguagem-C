@@ -25,7 +25,6 @@ typedef struct {
     Data dataDevolucaoPrevista;
 } Livro;
 
-/* ---------------- FUNÇÕES DE DATA ---------------- */
 
 int anoBissexto(int ano) {
     if ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0))
@@ -55,7 +54,6 @@ int converterParaDias(Data d) {
     return d.ano * 365 + d.mes * 30 + d.dia;
 }
 
-/* ---------------- CADASTRAR ---------------- */
 
 void cadastrarLivro() {
 
@@ -87,7 +85,6 @@ void cadastrarLivro() {
     printf("Livro cadastrado com sucesso!\n");
 }
 
-/* ---------------- LISTAR ---------------- */
 
 void listarLivros() {
 
@@ -122,7 +119,6 @@ void listarLivros() {
     fclose(arquivo);
 }
 
-/* ---------------- EMPRESTAR ---------------- */
 
 void emprestarLivro() {
 
@@ -180,8 +176,6 @@ void emprestarLivro() {
     printf("Livro nao encontrado.\n");
     fclose(arquivo);
 }
-
-/* ---------------- DEVOLVER ---------------- */
 
 void devolverLivro() {
 
@@ -247,7 +241,6 @@ void devolverLivro() {
     fclose(arquivo);
 }
 
-/* ---------------- MAIN ---------------- */
 
 int main() {
 
