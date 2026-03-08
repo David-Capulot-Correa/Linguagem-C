@@ -5,7 +5,6 @@
 
 #define MAX 100
 
-// ===== PROTÓTIPOS =====
 void mostrarNivel(float IT);
 void cadastrar();
 void listar();
@@ -13,11 +12,10 @@ void comparar();
 void apagarJogador();
 void pesquisarJogador();
 
-// ===== STRUCT =====
 typedef struct {
     char nome[50];
     char time[50];
-    char paisTime[50];       // País do time
+    char paisTime[50];
     int anoTime;
     char nacionalidade[50];
     char posicao[30];
@@ -27,11 +25,9 @@ typedef struct {
     float IT;
 } Jogador;
 
-// ===== VARIÁVEIS GLOBAIS =====
 Jogador jogadores[MAX];
 int total = 0;
 
-// ===== CALCULO DO IMPACTO =====
 void calcularImpacto(Jogador *j) {
     j->IT = 2*j->A2 + 3*j->A3 +
             1.5*j->D2 + 1.5*j->D3 +
@@ -39,43 +35,35 @@ void calcularImpacto(Jogador *j) {
             j->R + 1.2*j->F;
 }
 
-// ===== SALVAR ARQUIVO =====
-// ===== SALVAR ARQUIVO =====
 void salvarArquivo() {
-    FILE *f = fopen("jogadores.dat", "wb"); // 'wb' cria ou sobrescreve o arquivo binário
+    FILE *f = fopen("jogadores.dat", "wb");
     if (f == NULL) {
         printf("ERRO: Nao foi possivel criar o arquivo de dados!\n");
         return;
     }
 
-    // Grava primeiro a quantidade total de jogadores
     fwrite(&total, sizeof(int), 1, f);
-    // Depois grava o array inteiro de uma vez
     fwrite(jogadores, sizeof(Jogador), total, f);
 
     fclose(f);
 }
 
-// ===== CARREGAR ARQUIVO =====
 void carregarArquivo() {
-    FILE *f = fopen("jogadores.dat", "rb"); // 'rb' abre para leitura binária
+    FILE *f = fopen("jogadores.dat", "rb");
     if (f == NULL) {
-        // Se o arquivo nao existe, apenas ignora (primeira execucao)
         total = 0; 
         return;
     }
 
-    // Le a quantidade total que foi salva
     if (fread(&total, sizeof(int), 1, f) != 1) {
         total = 0;
     }
-    // Le os dados dos jogadores existentes
+
     fread(jogadores, sizeof(Jogador), total, f);
 
     fclose(f);
 }
 
-// ===== CARREGAR ARQUIVO =====
 void carregarArquivo() {
     FILE *f = fopen("jogadores.dat", "rb");
     if (f == NULL) return;
@@ -86,7 +74,6 @@ void carregarArquivo() {
     fclose(f);
 }
 
-// ===== MOSTRAR NIVEL =====
 void mostrarNivel(float IT) {
     if (IT < 12)
         printf("1. Totalmente Iniciante\n");
@@ -116,7 +103,6 @@ void mostrarNivel(float IT) {
         printf("13. Lenda do Esporte - O GOAT\n");
 }
 
-// ===== CADASTRAR JOGADOR =====
 void cadastrar() {
     if (total >= MAX) {
         printf("Limite atingido!\n");
@@ -183,7 +169,6 @@ void cadastrar() {
     printf("\nJogador salvo com sucesso!\n");
 }
 
-// ===== LISTAR JOGADORES =====
 void listar() {
     if (total == 0) {
         printf("\nNenhum jogador cadastrado.\n");
@@ -212,7 +197,6 @@ void listar() {
     }
 }
 
-// ===== COMPARAR JOGADORES =====
 void comparar() {
     if (total < 2) {
         printf("\nÉ necessário ter pelo menos 2 jogadores cadastrados para comparar.\n");
@@ -264,7 +248,6 @@ void comparar() {
         printf("\nEmpate tecnico!\n");
 }
 
-// ===== APAGAR JOGADOR =====
 void apagarJogador() {
     int indice;
 
@@ -287,193 +270,4 @@ void apagarJogador() {
     salvarArquivo();
 
     printf("Jogador apagado com sucesso!\n");
-}
-
-// ===== PESQUISAR JOGADOR =====
-// =================== PESQUISA AVANÇADA ===================
-void pesquisarJogadorAvancado() {
-    if (total == 0) {
-        printf("\nNenhum jogador cadastrado.\n");
-        return;
-    }
-
-    int modo;
-    printf("\n=== MENU DE PESQUISA ===\n");
-    printf("1 - Por Time (Hierarquia: Pais > Time > Temporada)\n");
-    printf("2 - Por Nacionalidade do Jogador\n");
-    printf("Escolha: ");
-    scanf("%d", &modo);
-
-    if (modo == 1) {
-        // --- PASSO 1: ESCOLHER O PAÍS ---
-        char listaPaises[MAX][50];
-        int qP = 0;
-        printf("\n=== SELECIONE O PAIS DO TIME ===\n");
-        for (int i = 0; i < total; i++) {
-            int existe = 0;
-            for (int j = 0; j < qP; j++) if (strcmp(jogadores[i].paisTime, listaPaises[j]) == 0) existe = 1;
-            if (!existe) {
-                printf("[%d] %s\n", qP + 1, jogadores[i].paisTime);
-                strcpy(listaPaises[qP++], jogadores[i].paisTime);
-            }
-        }
-
-        int selP;
-        printf("Escolha o numero: ");
-        scanf("%d", &selP);
-        if (selP < 1 || selP > qP) return;
-        char paisEscolhido[50];
-        strcpy(paisEscolhido, listaPaises[selP - 1]);
-
-        // --- PASSO 2: ESCOLHER O TIME ---
-        char listaTimes[MAX][50];
-        int qT = 0;
-        printf("\n=== TIMES EM: %s ===\n", paisEscolhido);
-        for (int i = 0; i < total; i++) {
-            if (strcmp(jogadores[i].paisTime, paisEscolhido) == 0) {
-                int existeT = 0;
-                for (int j = 0; j < qT; j++) if (strcmp(jogadores[i].time, listaTimes[j]) == 0) existeT = 1;
-                if (!existeT) {
-                    printf("[%d] %s\n", qT + 1, jogadores[i].time);
-                    strcpy(listaTimes[qT++], jogadores[i].time);
-                }
-            }
-        }
-
-        int selT;
-        printf("Escolha o numero: ");
-        scanf("%d", &selT);
-        if (selT < 1 || selT > qT) return;
-        char timeEscolhido[50];
-        strcpy(timeEscolhido, listaTimes[selT - 1]);
-
-        // --- PASSO 3: ESCOLHER A TEMPORADA ---
-        int listaAnos[MAX], qA = 0;
-        printf("\n=== TEMPORADAS DO %s ===\n", timeEscolhido);
-        for (int i = 0; i < total; i++) {
-            if (strcmp(jogadores[i].time, timeEscolhido) == 0) {
-                int existeA = 0;
-                for (int j = 0; j < qA; j++) if (jogadores[i].anoTime == listaAnos[j]) existeA = 1;
-                if (!existeA) {
-                    printf("[%d] Temporada %d\n", qA + 1, jogadores[i].anoTime);
-                    listaAnos[qA++] = jogadores[i].anoTime;
-                }
-            }
-        }
-
-        int selA;
-        printf("Escolha o numero: ");
-        scanf("%d", &selA);
-        if (selA < 1 || selA > qA) return;
-        int anoEscolhido = listaAnos[selA - 1];
-
-        // --- EXIBIÇÃO FINAL ---
-        Jogador temp[MAX]; int qTemp = 0;
-        for (int i = 0; i < total; i++) {
-            if (strcmp(jogadores[i].time, timeEscolhido) == 0 && jogadores[i].anoTime == anoEscolhido)
-                temp[qTemp++] = jogadores[i];
-        }
-
-        // Ordenação PG > SG > SF > PF > C
-        for (int x = 0; x < qTemp - 1; x++) {
-            for (int y = 0; y < qTemp - x - 1; y++) {
-                int p1 = 99, p2 = 99;
-                if (strcasecmp(temp[y].posicao, "PG") == 0) p1 = 1;
-                else if (strcasecmp(temp[y].posicao, "SG") == 0) p1 = 2;
-                else if (strcasecmp(temp[y].posicao, "SF") == 0) p1 = 3;
-                else if (strcasecmp(temp[y].posicao, "PF") == 0) p1 = 4;
-                else if (strcasecmp(temp[y].posicao, "C") == 0) p1 = 5;
-
-                if (strcasecmp(temp[y+1].posicao, "PG") == 0) p2 = 1;
-                else if (strcasecmp(temp[y+1].posicao, "SG") == 0) p2 = 2;
-                else if (strcasecmp(temp[y+1].posicao, "SF") == 0) p2 = 3;
-                else if (strcasecmp(temp[y+1].posicao, "PF") == 0) p2 = 4;
-                else if (strcasecmp(temp[y+1].posicao, "C") == 0) p2 = 5;
-
-                if (p1 > p2 || (p1 == p2 && temp[y].IT < temp[y+1].IT)) {
-                    Jogador aux = temp[y]; temp[y] = temp[y+1]; temp[y+1] = aux;
-                }
-            }
-        }
-
-        printf("\n=== ELENCO: %s (%d) ===\n", timeEscolhido, anoEscolhido);
-        for (int i = 0; i < qTemp; i++) {
-            printf("%-3s | %-20s | IT: %6.2f | ", temp[i].posicao, temp[i].nome, temp[i].IT);
-            mostrarNivel(temp[i].IT);
-        }
-
-    } else if (modo == 2) {
-        // --- PESQUISA POR NACIONALIDADE ---
-        char listaNac[MAX][50];
-        int qN = 0;
-        printf("\n=== SELECIONE A NACIONALIDADE ===\n");
-        for (int i = 0; i < total; i++) {
-            int existe = 0;
-            for (int j = 0; j < qN; j++) if (strcmp(jogadores[i].nacionalidade, listaNac[j]) == 0) existe = 1;
-            if (!existe) {
-                printf("[%d] %s\n", qN + 1, jogadores[i].nacionalidade);
-                strcpy(listaNac[qN++], jogadores[i].nacionalidade);
-            }
-        }
-
-        int selN;
-        printf("Escolha o numero: ");
-        scanf("%d", &selN);
-        if (selN < 1 || selN > qN) return;
-        char nacEscolhida[50];
-        strcpy(nacEscolhida, listaNac[selN - 1]);
-
-        // Coletar e ordenar por força (IT)
-        Jogador temp[MAX]; int qTemp = 0;
-        for (int i = 0; i < total; i++) {
-            if (strcmp(jogadores[i].nacionalidade, nacEscolhida) == 0) temp[qTemp++] = jogadores[i];
-        }
-
-        for (int x = 0; x < qTemp - 1; x++) {
-            for (int y = 0; y < qTemp - x - 1; y++) {
-                if (temp[y].IT < temp[y+1].IT) {
-                    Jogador aux = temp[y]; temp[y] = temp[y+1]; temp[y+1] = aux;
-                }
-            }
-        }
-
-        printf("\n=== JOGADORES DE NACIONALIDADE: %s ===\n", nacEscolhida);
-        for (int i = 0; i < qTemp; i++) {
-            printf("%-20s | %-15s | IT: %6.2f\n", temp[i].nome, temp[i].time, temp[i].IT);
-        }
-    } else {
-        printf("Opcao invalida!\n");
-    }
-}
-// ===== MAIN =====
-int main() {
-
-    int opcao;
-
-    carregarArquivo();
-
-    do {
-        printf("\n=== SISTEMA DE GERENCIAMENTO DE JOGADORES ===\n");
-        printf("1 - Cadastrar jogador\n");
-        printf("2 - Listar jogadores\n");
-        printf("3 - Comparar jogadores\n");
-        printf("4 - Apagar jogador\n");
-        printf("5 - Pesquisar jogador\n");
-        printf("0 - Sair\n");
-        printf("Escolha: ");
-        scanf("%d", &opcao);
-
-        switch(opcao) {
-            case 1: cadastrar(); break;
-            case 2: listar(); break;
-            case 3: comparar(); break;
-            case 4: apagarJogador(); break;
-            case 5: pesquisarJogadorAvancado(); break;
-            case 0: printf("Saindo...\n"); break;
-            default: printf("Opcao invalida!\n");
-        }
-
-    } while(opcao != 0);
-
-    return 0;
 }
