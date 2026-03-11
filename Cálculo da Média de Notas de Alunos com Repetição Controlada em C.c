@@ -1,10 +1,18 @@
 #include <stdio.h>
 
 int main() {
+    int i, quantidade, codigo;
     float nota1, nota2, media;
-    char continuar;
 
-    do {
+    printf("Digite a quantidade de alunos: ");
+    scanf("%d", &quantidade);
+
+    for (i = 1; i <= quantidade; i++) {
+        printf("\nAluno %d\n", i);
+
+        printf("Digite o codigo do aluno: ");
+        scanf("%d", &codigo);
+
         printf("Digite a primeira nota: ");
         scanf("%f", &nota1);
 
@@ -13,14 +21,11 @@ int main() {
 
         media = (nota1 + nota2) / 2;
 
-        printf("A media do aluno é: %.2f\n", media);
+        printf("Codigo do aluno: %d\n", codigo);
+        printf("Media: %.2f\n", media);
+    }
 
-        printf("Deseja calcular a media de outro aluno? (s/n): ");
-        scanf(" %c", &continuar);
-
-    } while (continuar == 's' || continuar == 'S');
-
-    printf("Programa encerrado.\n");
+    printf("\nCalculo de medias finalizado.\n");
 
     return 0;
 }
